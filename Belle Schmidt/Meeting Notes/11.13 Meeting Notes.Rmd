@@ -1,0 +1,122 @@
+---
+title: "11.9 Meeting Notes"
+author: "Belle Schmidt"
+date: "2024-11-09"
+output: html_document
+---
+
+## Reading in a Dataset
+
+Reading in the dataset looks different depending on whether or not your file is in the same folder as the dataset itself. When the file is in the same folder as the dataset, it is super simple to read in the data. I have demonstrated how to do it in the code chunk below. 
+
+### Reading In Data From The Same Folder As The File
+
+```{r}
+# Mens_Tennis_2023 <- read.csv("Mens_Tennis_2023.csv")
+```
+
+The first thing you'll note is that I have named the dataset "Mens_Tennis_2024" by using the arrow (<-). This is important to do because otherwise you are not saving the dataset, meaning that you can't use it throughout the document. Instead, it just displays the dataset that one time. Regardless of whether or not the dataset is in the same folder as the file, this step needs to be done. 
+
+The second thing you'll notice is the read.csv() function. This also needs to be done regardless of whether or not the dataset is in the same folder as the file. It basically just reads the file you add, in this case, a dataset. 
+
+The last thing to notice is that the path is very short here. When the dataset and file are in the same folder, all you have to do to load in the data is put the name of the dataset in quotation marks ("filename.csv") inside the read.csv() function. Also note that including the file type, (.csv in our case) is always necessary. 
+
+### Reading In Data From A Different Folder As The File
+
+The only difference between reading in data from a different folder as the file compared to the same folder as the file is that you need to include the file path when they are in different folders. The easiest way to get the file path is to go to your File Explorer, Right Click the Document (in this case Dataset) and select Copy as File Path. 
+
+**Note: For people with windows laptops, initially the file path is provided so there is only 1 backlash (\). You will need to manually add a second backlash so that it looks like the file path below. For macs, instead of using the backlashes, you actually have a singular forward slash /. Your path also will not include the "C:".** 
+
+Example of Reading in Data From A Windows:
+```{r}
+Mens_Tennis_2023 <- read.csv("C:\\Users\\isabe\\OneDrive\\Documents\\St-Olaf-Sports-Analytics-Club\\Belle Schmidt\\Tennis\\Mens_Tennis_2023.csv")
+```
+
+Example of Reading in Data From A Mac:
+```{r}
+# Mens_Tennis_2023 <- read.csv("Users/isabe/OneDrive/Documents/St-Olaf-Sports-Analytics-Club/Belle Schmidt/Tennis/Mens_Tennis_2023.csv")
+```
+
+**Side Note: On my document you will notice I put a "#" in front of the 1st and 3rd example. This is because those lines of code won't run on my laptop because I do not have a mac OR because my file and dataset are in different folder. Whenever you try to knit a document but you have an error in a line of code, it won't be able to knit. To get around this, you can put a comment in front of the line(s) of code creating the issues. To comment a lot of lines at the same time, highlight those lines and then press Ctrl + Shift + C. Knitting turns the file into a pdf. Putting a pound sign in front of code is different than putting it in front of text. When it is in front of text you are formatting the paper. The number of pound symbols determines if its a heading, section, subsection, etc.**
+
+### EDA For Tennis Project
+
+There are various packages that you will need to have access to specific functions in R. Before you can run any package, you have to install it into your RStudio (ONLY the first time you ever use the package though). One way to do this is to go to the lower right panel, click on the `Packages` tab at the top, click on `Install`, and then search the name of the package you wish to install. Another way to do it is use the `install.packages()` function. Inside the function you will put the name of the package in quotation marks. I have provided a commented out example below. 
+
+**Note: If you use the install.packages() function, you MUST comment out that line before trying to knit the document. Otherwise it won't knit!**
+
+```{r}
+#install.packages("ggplot2")
+```
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+
+```{r}
+# Match by match data
+Mens_Tennis_Matches <- read.csv("C://Users//isabe//OneDrive//Documents//St-Olaf-Sports-Analytics-Club//Belle Schmidt//Tennis//Mens_Tennis_Matches.csv")
+
+#View(Mens_Tennis_Matches)
+```
+
+```{r}
+Womens_Tennis_Matches <- read.csv("C://Users//isabe//OneDrive//Documents//St-Olaf-Sports-Analytics-Club//Belle Schmidt//Tennis//Womens_Tennis_Matches.csv")
+
+```
+
+```{r}
+Womens_Tennis_2023 <- read.csv("C://Users//isabe//OneDrive//Documents//St-Olaf-Sports-Analytics-Club//Belle Schmidt//Tennis//Womens_Tennis_2023.csv")
+```
+
+**Note: If you want to view all the column names to see what variables you have data for, use the colnames() function. Just put the name of the dataframe inside the function. I did an example of this below.**
+
+```{r}
+colnames(Womens_Tennis_Matches)
+```
+
+**A shortcut for the pipe is to do Ctrl + Shift + M**
+
+```{r}
+Mens_Tennis_Matches |> 
+  ggplot(aes(x = First_Serve_Pts_Won, y = Opponents_First_Serve_Pts_Won)) +
+  geom_point() 
+```
+
+```{r}
+Mens_Tennis_Matches |> 
+  ggplot(aes(x = Break_Pts_Saved, y = Oppponents_Break_Pts_Saved)) +
+  geom_point()
+```
+
+```{r}
+Mens_Tennis_Matches |> 
+  ggplot(aes(x = Unforced_Errors, y = Forced_Errors)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+```{r}
+Mens_Tennis_Matches |> 
+  ggplot(aes(x = Nine_Or_More_Touches, y = Forced_Errors)) +
+  geom_point()
+```
+
+```{r}
+Mens_Tennis_Matches |> 
+  ggplot(aes(x = Five_To_Eight_Touches, y = Forced_Errors)) +
+  geom_point()
+```
+```{r}
+Mens_Tennis_Matches |> 
+  ggplot(aes(x = Zero_To_Four_Touches, y = Forced_Errors)) +
+  geom_point()
+```
+
+```{r}
+View(Mens_Tennis_Matches)
+```
+
+
